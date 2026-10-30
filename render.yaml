@@ -1,0 +1,25 @@
+# Render Blueprint: the full app (Express backend + built frontend) behind a login.
+# The persistent disk requires a paid instance type; the free tier loses data on restart.
+services:
+  - type: web
+    name: gst-billing
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    disk:
+      name: gst-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: HOSTED
+        value: "1"
+      - key: STORAGE_DIR
+        value: /var/data
+      - key: NODE_VERSION
+        value: "20"
+      - key: APP_USER
+        value: admin
+      - key: APP_PASSWORD
+        sync: false   # you type this in the Render dashboard; at least 12 characters
