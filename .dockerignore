@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.gitignore
+data
+Saved Invoices
+Trash
+*.log
+.env*
+release-build
