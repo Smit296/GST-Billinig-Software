@@ -1,9 +1,11 @@
-# Fly.io config. Set the login password before first use:
-#   fly secrets set APP_PASSWORD='at-least-12-characters'
-# Create the data volume once:
-#   fly volumes create gst_data --size 1 --region bom
+# fly.toml app configuration file generated for gst-billing-smit on 2026-10-30T12:18:33Z
+#
+# See https://docs.fly.io/reference/configuration for information about how to use this file.
+#
+
 app = "gst-billing-smit"
-primary_region = "bom"
+primary_region = 'maa'
+swap_size_mb = 512
 
 [build]
 
@@ -19,18 +21,13 @@ primary_region = "bom"
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = "off"
+  auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-
-  [[http_service.checks]]
-    method = "GET"
-    path = "/healthz"
-    interval = "30s"
-    timeout = "5s"
-    grace_period = "20s"
+  checks = [{ grace_period = '20s', interval = '30s', method = 'GET', path = '/healthz', timeout = '5s' }]
 
 [[vm]]
-  memory = "512mb"
-  cpu_kind = "shared"
+  memory = '512mb'
+  cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 512
